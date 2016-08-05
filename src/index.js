@@ -1,5 +1,3 @@
-"use strict";
-
 const Sequelize = require('sequelize');
 
 // Setup Sequelize and Connection with Database
@@ -44,7 +42,7 @@ export default (config) => {
   models.user.belongsToMany(models.project, {
     through: models['user-project']
   });
-  modelsuser.hasMany(models.notification);
+  models.user.hasMany(models.notification);
 
   models.notification.belongsTo(models.user);
   models.newsfeed.belongsTo(models.project);
@@ -56,6 +54,4 @@ export default (config) => {
   }, error => {
     return console.log(error);
   });
-}
-
-
+};
