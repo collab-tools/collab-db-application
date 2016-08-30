@@ -3,10 +3,10 @@ const Sequelize = require('sequelize');
 // Setup Sequelize and Connection with Database
 // ======================================================
 export default (config) => {
-  const dbName = config('name');
-  const dbUsername = config('username');
-  const dbPassword = config('password');
-  const dbOptions = config('options');
+  const dbName = config.name;
+  const dbUsername = config.username;
+  const dbPassword = config.password;
+  const dbOptions = config.options;
 
   const models = {};
   const sequelize = new Sequelize(dbName, dbUsername, dbPassword, dbOptions);
@@ -23,7 +23,7 @@ export default (config) => {
   ];
 
   modelFiles.forEach(model => {
-    models[model] = sequelize.import(`${__dirname}/${model}`);
+    models[model.replace('-', '_')] = sequelize.import(`${__dirname}/${model}`);
   });
 
   // Setup relations and associations between models based on database design
@@ -35,12 +35,12 @@ export default (config) => {
   models.milestone.hasMany(models.task);
 
   models.project.belongsToMany(models.user, {
-    through: models['user-project']
+    through: models.user_project
   });
   models.project.hasMany(models.milestone);
 
   models.user.belongsToMany(models.project, {
-    through: models['user-project']
+    through: models.user_project
   });
   models.user.hasMany(models.notification);
 
