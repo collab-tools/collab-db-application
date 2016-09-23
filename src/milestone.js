@@ -7,7 +7,7 @@ module.exports = function (sequelize, DataTypes) {
     content: DataTypes.TEXT,
     deadline: DataTypes.DATE,
     github_id: DataTypes.BIGINT,
-    github_number: DataTypes.INTEGER
+    github_number: DataTypes.INTEGER,
   }, {
     indexes: [
       {
@@ -25,13 +25,18 @@ module.exports = function (sequelize, DataTypes) {
       },
       getMilestonesByProject(projectId, range) {
         const where = { projectId };
-        if (range) where.createdAt = { $gt: range };
+        if (range) where.created_at = { $gt: range };
         return this.findAll({ where });
       },
       getMilestones(range) {
         const where = {};
-        if (range) where.createdAt = { $gt: range };
+        if (range) where.created_at = { $gt: range };
         return this.findAll({ where });
+      },
+      getCount(range) {
+        const where = {};
+        if (range) where.created_at = { $gt: range };
+        return this.count({ where });
       }
     }
   });

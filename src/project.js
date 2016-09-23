@@ -32,12 +32,12 @@ module.exports = function (sequelize, DataTypes) {
       },
       getProjects(range) {
         const where = {};
-        if (range) where.createdAt = { $gt: range };
+        if (range) where.created_at = { $gt: range };
         return this.findAll({ where });
       },
       getProjectsWithMembers(range) {
         const where = {};
-        if (range) where.createdAt = { $gt: range };
+        if (range) where.created_at = { $gt: range };
         return this.findAll({
           where,
           include: [{
@@ -47,12 +47,12 @@ module.exports = function (sequelize, DataTypes) {
       },
       getProjectsCount(range) {
         const where = {};
-        if (range) where.createdAt = { $gt: range };
+        if (range) where.created_at = { $gt: range };
         return this.count({ where });
       },
       getRepositories(range) {
         const where = { github_repo_name: { $not: null }, github_repo_owner: { $not: null } };
-        if (range) where.createdAt = { $gt: range };
+        if (range) where.created_at = { $gt: range };
         return this.findAll({
           where,
           attributes: ['github_repo_name', 'github_repo_owner']
