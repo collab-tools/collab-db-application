@@ -7,7 +7,7 @@ module.exports = function (sequelize, DataTypes) {
     content: DataTypes.TEXT,
     deadline: DataTypes.DATE,
     github_id: DataTypes.BIGINT,
-    github_number: DataTypes.INTEGER,
+    github_number: DataTypes.INTEGER
   }, {
     indexes: [
       {

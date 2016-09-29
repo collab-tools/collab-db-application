@@ -50,7 +50,10 @@ export default (config) => {
   // Synchronize all the defined model into the actual mySQL database
   // ========================================================================
   sequelize.sync()
-    .then(() => {}, error => {
+    .then(() => {
+      console.log('collab-db-application established');
+    },
+    (error) => {
       console.log(error);
     });
 

@@ -23,6 +23,7 @@ module.exports = function (sequelize, DataTypes) {
         return this.findById(id);
       },
       getUsers() {
+        console.log(this);
         return this.findAll();
       },
       getUsersCount() {
