@@ -58,6 +58,11 @@ module.exports = function (sequelize, DataTypes) {
           where,
           attributes: ['github_repo_name', 'github_repo_owner']
         });
+      },
+      getRepositoriesCount(range) {
+        const where = { github_repo_name: { $not: null }, github_repo_owner: { $not: null } };
+        if (range) where.created_at = { $gt: range };
+        return this.count({ where });
       }
     }
   });
