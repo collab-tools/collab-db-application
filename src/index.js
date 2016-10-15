@@ -87,8 +87,8 @@ export default (config) => {
   models.project.belongsToMany(models.user, {
     through: models.user_project,
     foreignKey: {
-      name: 'userId',
-      field: 'user_id'
+      name: 'projectId',
+      field: 'project_id'
     }
   });
 
@@ -102,8 +102,8 @@ export default (config) => {
   models.user.belongsToMany(models.project, {
     through: models.user_project,
     foreignKey: {
-      name: 'projectId',
-      field: 'project_id'
+      name: 'userId',
+      field: 'user_id'
     }
   });
 
