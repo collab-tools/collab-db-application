@@ -56,24 +56,77 @@ export default (config) => {
 
   // Setup relations and associations between models based on database design
   // ========================================================================
-  models.task.belongsTo(models.milestone);
-  models.task.belongsTo(models.project);
+  models.task.belongsTo(models.milestone, {
+    foreignKey: {
+      name: 'milestoneId',
+      field: 'milestone_id'
+    }
+  });
 
-  models.milestone.belongsTo(models.project);
-  models.milestone.hasMany(models.task);
+  models.task.belongsTo(models.project, {
+    foreignKey: {
+      name: 'projectId',
+      field: 'project_id'
+    }
+  });
+
+  models.milestone.belongsTo(models.project, {
+    foreignKey: {
+      name: 'projectId',
+      field: 'project_id'
+    }
+  });
+
+  models.milestone.hasMany(models.task, {
+    foreignKey: {
+      name: 'milestoneId',
+      field: 'milestone_id'
+    }
+  });
 
   models.project.belongsToMany(models.user, {
-    through: models.user_project
+    through: models.user_project,
+    foreignKey: {
+      name: 'userId',
+      field: 'user_id'
+    }
   });
-  models.project.hasMany(models.milestone);
+
+  models.project.hasMany(models.milestone, {
+    foreignKey: {
+      name: 'projectId',
+      field: 'project_id'
+    }
+  });
 
   models.user.belongsToMany(models.project, {
-    through: models.user_project
+    through: models.user_project,
+    foreignKey: {
+      name: 'projectId',
+      field: 'project_id'
+    }
   });
-  models.user.hasMany(models.notification);
 
-  models.notification.belongsTo(models.user);
-  models.newsfeed.belongsTo(models.project);
+  models.user.hasMany(models.notification, {
+    foreignKey: {
+      name: 'userId',
+      field: 'user_id'
+    }
+  });
+
+  models.notification.belongsTo(models.user, {
+    foreignKey: {
+      name: 'userId',
+      field: 'user_id'
+    }
+  });
+
+  models.newsfeed.belongsTo(models.project, {
+    foreignKey: {
+      name: 'projectId',
+      field: 'project_id'
+    }
+  });
 
 
   // Synchronize all the defined model into the actual mySQL database

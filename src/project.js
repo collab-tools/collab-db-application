@@ -5,11 +5,29 @@ module.exports = function (sequelize, DataTypes) {
       primaryKey: true
     },
     content: DataTypes.TEXT,
-    root_folder: DataTypes.STRING,
+    rootFolder: {
+      type: DataTypes.STRING,
+      field: 'root_folder'
+    },
     chatroom: DataTypes.STRING,
-    github_repo_name: DataTypes.STRING,
-    github_repo_owner: DataTypes.STRING
+    githubRepoName: {
+      type: DataTypes.STRING,
+      field: 'github_repo_owner'
+    },
+    githubRepoOwner: {
+      type: DataTypes.STRING,
+      field: 'github_repo_owner'
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      field: 'created_at'
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      field: 'updated_at'
+    }
   }, {
+    timestamp: true,
     underscored: true,
     classMethods: {
       findProjectById(id) {
@@ -26,19 +44,19 @@ module.exports = function (sequelize, DataTypes) {
       },
       getUsersOfProject(id) {
         return this.findById(id)
-            .then((project) => {
-              if (!project) return null;
-              return project.getUsers();
-            });
+          .then((project) => {
+            if (!project) return null;
+            return project.getUsers();
+          });
       },
       getProjects(range) {
         const where = {};
-        if (range) where.created_at = { $gt: range };
+        if (range) where.createdAt = { $gt: range };
         return this.findAll({ where });
       },
       getProjectsWithMembers(range) {
         const where = {};
-        if (range) where.created_at = { $gt: range };
+        if (range) where.createdAt = { $gt: range };
         return this.findAll({
           where,
           include: [{
@@ -48,12 +66,12 @@ module.exports = function (sequelize, DataTypes) {
       },
       getProjectsCount(range) {
         const where = {};
-        if (range) where.created_at = { $gt: range };
+        if (range) where.createdAt = { $gt: range };
         return this.count({ where });
       },
       getRepositories(range) {
         const where = { github_repo_name: { $not: null }, github_repo_owner: { $not: null } };
-        if (range) where.created_at = { $gt: range };
+        if (range) where.createdAt = { $gt: range };
         return this.findAll({
           where,
           attributes: ['github_repo_name', 'github_repo_owner']
@@ -61,7 +79,7 @@ module.exports = function (sequelize, DataTypes) {
       },
       getRepositoriesCount(range) {
         const where = { github_repo_name: { $not: null }, github_repo_owner: { $not: null } };
-        if (range) where.created_at = { $gt: range };
+        if (range) where.createdAt = { $gt: range };
         return this.count({ where });
       }
     }
