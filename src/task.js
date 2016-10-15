@@ -43,7 +43,7 @@ module.exports = function (sequelize, DataTypes) {
         return this.findById(id);
       },
       getTasksByAssignee(userId, projectId, range) {
-        const where = { assignee_id: userId, created_at: { $gt: range } };
+        const where = { assigneeId: userId, createdAt: { $gt: range } };
         if (projectId) where.projectId = projectId;
         return this.findAll({ where });
       },

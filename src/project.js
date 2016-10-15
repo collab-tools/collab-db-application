@@ -12,7 +12,7 @@ module.exports = function (sequelize, DataTypes) {
     chatroom: DataTypes.STRING,
     githubRepoName: {
       type: DataTypes.STRING,
-      field: 'github_repo_owner'
+      field: 'github_repo_name'
     },
     githubRepoOwner: {
       type: DataTypes.STRING,
@@ -70,15 +70,15 @@ module.exports = function (sequelize, DataTypes) {
         return this.count({ where });
       },
       getRepositories(range) {
-        const where = { github_repo_name: { $not: null }, github_repo_owner: { $not: null } };
+        const where = { githubRepoName: { $not: null }, githubRepoOwner: { $not: null } };
         if (range) where.createdAt = { $gt: range };
         return this.findAll({
           where,
-          attributes: ['github_repo_name', 'github_repo_owner']
+          attributes: ['githubRepoName', 'githubRepoOwner']
         });
       },
       getRepositoriesCount(range) {
-        const where = { github_repo_name: { $not: null }, github_repo_owner: { $not: null } };
+        const where = { githubRepoName: { $not: null }, githubRepoOwner: { $not: null } };
         if (range) where.createdAt = { $gt: range };
         return this.count({ where });
       }
