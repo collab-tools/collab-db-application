@@ -38,7 +38,7 @@ module.exports = function (sequelize, DataTypes) {
         return this.findAll({
           where,
           include: [{
-            model: this.associations.user.target
+            model: this.associations.users.target
           }]
         });
       },
@@ -49,29 +49,29 @@ module.exports = function (sequelize, DataTypes) {
             return project.getUsers();
           });
       },
-      getProjects(range) {
+      getProjects(start, end) {
         const where = {};
-        if (range) where.createdAt = { $gt: range };
+        where.createdAt = { $between: [start, end] };
         return this.findAll({ where });
       },
-      getProjectsWithMembers(range) {
+      getProjectsWithMembers(start, end) {
         const where = {};
-        if (range) where.createdAt = { $gt: range };
+        where.createdAt = { $between: [start, end] };
         return this.findAll({
           where,
           include: [{
-            model: this.associations.user.target
+            model: this.associations.users.target
           }]
         });
       },
-      getProjectsCount(range) {
+      getProjectsCount(start, end) {
         const where = {};
-        if (range) where.createdAt = { $gt: range };
+        where.createdAt = { $between: [start, end] };
         return this.count({ where });
       },
-      getRepositories(range) {
+      getRepositories(start, end) {
         const where = { githubRepoName: { $not: null }, githubRepoOwner: { $not: null } };
-        if (range) where.createdAt = { $gt: range };
+        where.createdAt = { $between: [start, end] };
         return this.findAll({
           where,
           attributes: [
@@ -79,9 +79,9 @@ module.exports = function (sequelize, DataTypes) {
           ]
         });
       },
-      getRepositoriesCount(range) {
+      getRepositoriesCount(start, end) {
         const where = { githubRepoName: { $not: null }, githubRepoOwner: { $not: null } };
-        if (range) where.createdAt = { $gt: range };
+        where.createdAt = { $between: [start, end] };
         return this.count({ where });
       }
     }
