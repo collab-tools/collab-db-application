@@ -42,24 +42,24 @@ module.exports = function (sequelize, DataTypes) {
       getTask(id) {
         return this.findById(id);
       },
-      getTasksByAssignee(userId, projectId, range) {
-        const where = { assigneeId: userId, createdAt: { $gt: range } };
+      getTasksByAssignee(userId, projectId, start, end) {
+        const where = { assigneeId: userId, createdAt: { $gt: start, end } };
         if (projectId) where.projectId = projectId;
         return this.findAll({ where });
       },
-      getTasksByProject(projectId, range) {
+      getTasksByProject(projectId, start, end) {
         const where = { projectId };
-        if (range) where.createdAt = { $gt: range };
+        where.createdAt = { $between: [start, end] };
         return this.findAll({ where });
       },
-      getTasks(range) {
+      getTasks(start, end) {
         const where = {};
-        if (range) where.createdAt = { $gt: range };
+        where.createdAt = { $between: [start, end] };
         return this.findAll({ where });
       },
-      getCount(range) {
+      getCount(start, end) {
         const where = {};
-        if (range) where.createdAt = { $gt: range };
+        where.createdAt = { $between: [start, end] };
         return this.count({ where });
       }
     }

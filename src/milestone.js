@@ -36,19 +36,19 @@ module.exports = function (sequelize, DataTypes) {
       getMilestone(id) {
         return this.findById(id);
       },
-      getMilestonesByProject(projectId, range) {
+      getMilestonesByProject(projectId, start, end) {
         const where = { projectId };
-        if (range) where.createdAt = { $gt: range };
+        where.createdAt = { $between: [start, end] };
         return this.findAll({ where });
       },
-      getMilestones(range) {
+      getMilestones(start, end) {
         const where = {};
-        if (range) where.createdAt = { $gt: range };
+        where.createdAt = { $between: [start, end] };
         return this.findAll({ where });
       },
-      getCount(range) {
+      getCount(start, end) {
         const where = {};
-        if (range) where.createdAt = { $gt: range };
+        where.createdAt = { $between: [start, end] };
         return this.count({ where });
       }
     }

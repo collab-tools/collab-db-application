@@ -74,7 +74,9 @@ module.exports = function (sequelize, DataTypes) {
         if (range) where.createdAt = { $gt: range };
         return this.findAll({
           where,
-          attributes: ['githubRepoName', 'githubRepoOwner']
+          attributes: [
+            ['id', 'projectId'], 'githubRepoName', 'githubRepoOwner'
+          ]
         });
       },
       getRepositoriesCount(range) {

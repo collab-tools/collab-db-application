@@ -49,22 +49,20 @@ module.exports = function (sequelize, DataTypes) {
       getUserById(id) {
         return this.findById(id);
       },
-      getUsers(range) {
+      getUsers(start, end) {
         const where = {};
-        if (range) where.createdAt = { $gt: range };
+        where.createdAt = { $between: [start, end] };
         return this.findAll({ where });
       },
       getUsersCount() {
         return this.count();
       },
-      getUserProject(id) {
-        return this.findAll({
-          where: { id },
-          include: [{
-            model: this.associations.projects.target
-          }]
+      getUserProjects(id) {
+        return this.findById(id).then((user) => {
+          if (!user) return null;
+          return user.getProjects();
         });
-      }
+      },
     }
   });
 };
