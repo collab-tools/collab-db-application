@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/collab-tools/collab-db-application#readme",
   "dependencies": {
+    "moment": "^2.15.2",
     "mysql": "^2.11.1",
     "mysql2": "^1.1.0",
     "sequelize": "^3.24.3",
