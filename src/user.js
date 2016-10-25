@@ -54,6 +54,25 @@ module.exports = function (sequelize, DataTypes) {
         where.createdAt = { $between: [start, end] };
         return this.findAll({ where });
       },
+      getUsersWithProjects(start, end) {
+        const where = {};
+        where.createdAt = { $between: [start, end] };
+        return this.findAll({
+          where,
+          include: [{
+            model: this.associations.projects.target
+          }]
+        });
+      },
+      getUserWithProjects(id) {
+        const where = { id };
+        return this.findAll({
+          where,
+          include: [{
+            model: this.associations.projects.target
+          }]
+        });
+      },
       getUsersCount() {
         return this.count();
       },
