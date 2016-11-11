@@ -57,6 +57,17 @@ module.exports = function (sequelize, DataTypes) {
           }]
         });
       },
+      getElapsedMilestonesByProject(projectId, start, end) {
+        const where = { projectId };
+        where.deadline = { $between: [start, end] };
+        return this.findAll({
+          where,
+          include: [{
+            model: this.associations.tasks.target,
+            required: true
+          }]
+        });
+      },
       getCount(start, end) {
         const where = {};
         where.createdAt = { $between: [start, end] };
