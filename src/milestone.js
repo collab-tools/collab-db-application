@@ -39,12 +39,24 @@ module.exports = function (sequelize, DataTypes) {
       getMilestonesByProject(projectId, start, end) {
         const where = { projectId };
         where.createdAt = { $between: [start, end] };
-        return this.findAll({ where });
+        return this.findAll({
+          where,
+          include: [{
+            model: this.associations.tasks.target,
+            required: true
+          }]
+        });
       },
       getMilestones(start, end) {
         const where = {};
         where.createdAt = { $between: [start, end] };
-        return this.findAll({ where });
+        return this.findAll({
+          where,
+          include: [{
+            model: this.associations.tasks.target,
+            required: true
+          }]
+        });
       },
       getElapsedMilestones(start, end) {
         const where = {};
